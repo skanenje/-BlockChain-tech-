@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Sale Agreement Blockchain</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #555;
+        }
+        #agreementList {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .agreement {
+            background: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vehicle Sale Agreement Blockchain</h1>
+
+    <h2>Create New Agreement</h2>
+    <form action="/create" method="POST">
+        <input type="text" name="seller" placeholder="Seller Name" required><br>
+        <input type="text" name="buyer" placeholder="Buyer Name" required><br>
+        <input type="text" name="vehicleMake" placeholder="Vehicle Make" required><br>
+        <input type="text" name="registrationNumber" placeholder="Registration Number" required><br>
+        <input type="number" name="purchasePrice" placeholder="Purchase Price" required><br>
+        <input type="submit" value="Create Agreement">
+    </form>
+
+    <h2>Existing Agreements</h2>
+    <div id="agreementList">
+        {{range .}}
+        <div class="agreement">
+            <h3>Agreement ID: {{.ID}}</h3>
+            <p><strong>Seller:</strong> {{.Seller}}</p>
+            <p><strong>Buyer:</strong> {{.Buyer}}</p>
+            <p><strong>Vehicle:</strong> {{.VehicleMake}}</p>
+            <p><strong>Registration:</strong> {{.RegistrationNumber}}</p>
+            <p><strong>Price:</strong> ${{.PurchasePrice}}</p>
+            <p><strong>Status:</strong> {{if .IsCompleted}}Completed{{else}}Pending{{end}}</p>
+            <p><strong>Created:</strong> {{.DateCreated}}</p>
+        </div>
+        {{end}}
+    </div>
+</body>
+</html>

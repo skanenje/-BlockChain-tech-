@@ -1,24 +1,36 @@
 package blockchain
 
 import (
-	"sync"
-	"swapBlock/internal/agreement"
+    "sync"
+
+    "swapBlock/internal/agreement"
 )
-type BlockChain struct{
-	Chain []Block
-	mutex sync.Mutex
+
+type Blockchain struct {
+    Chain  []Block
+    mutex  sync.Mutex
 }
-func NewBlockChain()*BlockChain{
-	return &BlockChain{
-		Chain: []Block{createGenesisBlock()},
-	}
+
+func NewBlockchain() *Blockchain {
+    return &Blockchain{
+        Chain: []Block{createGenesisBlock()},
+    }
 }
-func createGenesisBlock()Block{
-	return *NewBlock(0, agreement.SaleAgreement{},"" )
+
+func (bc *Blockchain) AddBlock(agreement agreement.SaleAgreement) {
+    bc.mutex.Lock()
+    defer bc.mutex.Unlock()
+
+    prevBlock := bc.Chain[len(bc.Chain)-1]
+    newBlock := NewBlock(len(bc.Chain), agreement, prevBlock.Hash)
+    newBlock.Mine(bc.GetDifficulty())
+    bc.Chain = append(bc.Chain, *newBlock)
 }
-func (b *BlockChain) Diffuclty()int{
-	return 5 // abstract for now
+
+func createGenesisBlock() Block {
+    return *NewBlock(0, agreement.SaleAgreement{}, "")
 }
-func (b *BlockChain) AddBlock(){
-	
+
+func (bc *Blockchain) GetDifficulty() int {
+    return 4 // This could be dynamic based on certain conditions
 }
